@@ -31,7 +31,7 @@ resource "aws_iam_role" "iam-role" {
 }
 
 resource "aws_lambda_function" "lambda-function" {
-  filename      = "${path.module}/src"
+  filename      = "${path.module}/src.zip"
   function_name = var.lambda_name
   role          = aws_iam_role.iam-role.arn
   handler       = "src.lambda_handler"
