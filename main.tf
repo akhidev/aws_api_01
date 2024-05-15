@@ -38,11 +38,17 @@ resource "aws_iam_role_policy" "iam-policy" {
   policy = file("${path.module}/iam-policy.json")
 }
 
+data "archive_file" "zip_src_code" {
+type = "zip"
+source_dir = "${path.module}/src/"
+output_path = "${path.module}/src/api_handler.zip"
+}
+
 resource "aws_lambda_function" "lambda-function" {
-  filename      = "${path.module}/src.zip"
+  filename      = "${path.module}/src/api_handler.zip"
   function_name = var.lambda_name
   role          = aws_iam_role.iam-role.arn
-  handler       = "lambda_handler"
+  handler       = "api_handler.lambda_handler"
   runtime       = "python3.9"
 }
 
